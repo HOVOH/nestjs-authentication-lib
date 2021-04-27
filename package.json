@@ -2,8 +2,7 @@
   "name": "@hovoh/nestjs-authentication-lib",
   "version": "1.0.0",
   "description": "",
-  "author": "",
-  "private": true,
+  "author": "HOVOH",
   "license": "UNLICENSED",
   "main": "dist/main.js",
   "scripts": {
