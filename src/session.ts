@@ -1,3 +1,5 @@
+import { IsBoolean, IsDate, IsString } from "class-validator";
+
 export interface IAccessToken {
   anon: boolean;
   uuid: string;
@@ -17,10 +19,19 @@ export class AnonymousSession implements IAccessToken {
 }
 
 export class Session implements IAccessToken {
+  @IsBoolean()
   anon = false;
+
+  @IsString()
   uuid: string;
+
+  @IsString()
   userUuid: string;
+
+  @IsDate()
   startedAt: Date;
+
+  @IsDate()
   validUntil: Date;
 
   constructor(
@@ -39,8 +50,8 @@ export class Session implements IAccessToken {
     return new Session(
       accessToken.uuid,
       accessToken.userUuid,
-      accessToken.startedAt,
-      accessToken.validUntil,
+      new Date(accessToken.startedAt),
+      new Date(accessToken.validUntil),
     );
   }
 }
