@@ -1,5 +1,13 @@
 import { IsBoolean, IsDate, IsString } from "class-validator";
 
+export interface JwtAccessToken {
+  anon: boolean;
+  uuid: string;
+  userUuid: string;
+  startedAt: string | number;
+  validUntil: string | number;
+}
+
 export interface IAccessToken {
   anon: boolean;
   uuid: string;
@@ -46,7 +54,7 @@ export class Session implements IAccessToken {
     this.validUntil = validUntil;
   }
 
-  static fromAccessToken(accessToken: IAccessToken) {
+  static fromAccessToken(accessToken: JwtAccessToken) {
     return new Session(
       accessToken.uuid,
       accessToken.userUuid,

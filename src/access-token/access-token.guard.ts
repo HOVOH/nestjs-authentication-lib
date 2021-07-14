@@ -6,10 +6,10 @@ import { ApplicationError } from '@hovoh/nestjs-application-error';
 import { NO_ACCESS_TOKEN, BAD_ACCESS_TOKEN } from '../error.codes';
 import {
   AnonymousSession,
-  IAccessToken,
+  IAccessToken, JwtAccessToken,
   Session,
-  SignedAccessToken,
-} from '../session';
+  SignedAccessToken
+} from "../session";
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -49,24 +49,15 @@ export class AccessTokenGuard implements CanActivate {
   }
 
   getJwtFromHttp(context: ExecutionContext): SignedAccessToken {
-    const { cookies } = this.getRequest(context);
+    const { cookies } = context.switchToHttp().getRequest();
     if (cookies) {
       return cookies[ACCESS_COOKIE_NAME] ? cookies[ACCESS_COOKIE_NAME] : null;
     }
     return null;
   }
 
-  private getRequest(context: ExecutionContext) {
-    if (context.getType() === 'http') {
-      return context.switchToHttp().getRequest();
-    } else if (context.getType() === 'rpc') {
-      return context.switchToRpc().getContext();
-    }
-    return null;
-  }
-
   getJwtFromRpc(context: ExecutionContext) {
-    const request = this.getRequest(context);
+    const request = context.switchToRpc().getContext();
     const authorization: string = request.get('Authorization');
     if (authorization.includes('Bearer ')) {
       return authorization.split(' ')[1];
@@ -79,13 +70,22 @@ export class AccessTokenGuard implements CanActivate {
     request.session = session;
   }
 
+  getRequest(context: ExecutionContext) {
+    if (context.getType() === 'http') {
+      return context.switchToHttp().getRequest();
+    } else if (context.getType() === 'rpc') {
+      return context.switchToRpc().getContext();
+    }
+    return null;
+  }
+
   anonymousSession() {
     return new AnonymousSession();
   }
 
   verifyAccessToken(accessToken: SignedAccessToken): Session {
     try {
-      const token = this.jwtService.verify(accessToken) as IAccessToken;
+      const token = this.jwtService.verify(accessToken) as JwtAccessToken;
       return Session.fromAccessToken(token);
     } catch (e) {
       throw new ApplicationError(BAD_ACCESS_TOKEN);
