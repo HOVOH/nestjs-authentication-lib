@@ -3,21 +3,9 @@ import { Test } from "@nestjs/testing";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { createMock } from "@golevelup/ts-jest";
 import { ExecutionContext } from "@nestjs/common";
-import * as faker from "faker";
-import { JwtAccessToken } from "../session";
 import { serialize } from "@hovoh/nestjs-api-lib";
 import { BAD_ACCESS_TOKEN, NO_ACCESS_TOKEN } from "../error.codes";
-
-const iAccessTokenFactory = (defaults?: Partial<JwtAccessToken>) => {
-  const startDate = new Date()
-  return Object.assign({
-    anon: false,
-    uuid: faker.datatype.uuid(),
-    userUuid: faker.datatype.uuid(),
-    startedAt: startDate,
-    validUntil: new Date(startDate.valueOf()+(10*60*1000)),
-  }, defaults);
-}
+import { iAccessTokenFactory } from "../testhelpers";
 
 describe("Access Token Guard", () => {
   let accessTokenGuard: AccessTokenGuard;

@@ -1,6 +1,6 @@
 {
   "name": "@hovoh/nestjs-authentication-lib",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "author": "HOVOH",
   "license": "UNLICENSED",
@@ -20,7 +20,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json --watch"
   },
   "dependencies": {
     "@hovoh/nestjs-application-error": "^1.0.0",

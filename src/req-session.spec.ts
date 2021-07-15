@@ -1,8 +1,11 @@
 import { createMock } from "@golevelup/ts-jest";
 import { ExecutionContext } from "@nestjs/common";
-import { reqSessionFactory } from "./req-session.decorator";
+import { ReqSessionFactory } from "./req-session.decorator";
 
 describe("ReqSession decorator", () => {
+
+  const reqSessionFactory = ReqSessionFactory.build;
+
   it("Should switch to http if type is http", () => {
     const mockExecutionContext = createMock<ExecutionContext>();
     mockExecutionContext.getType.mockReturnValue("http");
