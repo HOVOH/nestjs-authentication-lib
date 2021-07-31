@@ -4,6 +4,9 @@ import { AccessTokenGuard } from './access-token/access-token.guard';
 import { ACCESS_COOKIE_NAME } from './access-token/constants';
 import { ReqSession } from "./req-session.decorator";
 import {Public, isPublic} from "./access-token/public.decorator";
+import {FakeAccessTokenGuard, iAccessTokenFactory } from "./testhelpers";
+
+"./testhelpers"
 
 export {
   ACCESS_COOKIE_NAME,
@@ -15,5 +18,7 @@ export {
   Public,
   ReqSession,
   SignedAccessToken,
-  Session
+  Session,
+  FakeAccessTokenGuard,
+  iAccessTokenFactory
 };
